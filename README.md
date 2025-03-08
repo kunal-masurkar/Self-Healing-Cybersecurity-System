@@ -94,3 +94,6 @@ This project is licensed under the Apache 2.0 License - see the LICENSE file for
 ## 💡 Author
 👨‍💻 Developed by **Kunal Masurkar**  
 🌐 [GitHub](https://github.com/kunal-masurkar) | 🔗 [LinkedIn](https://linkedin.com/in/kunal-masurkar-8494a123a)
+
+---
+## Note: This project is continuously updated, and contributions are welcome! Feel free to create issues, submit pull requests, or open discussions. 💬
