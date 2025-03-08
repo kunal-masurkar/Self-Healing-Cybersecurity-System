@@ -26,7 +26,7 @@ This repository is actively maintained, and changes are made on a regular basis.
 
 The project follows a modular structure for ease of use and maintainability:
 ```bash  
-  Self-Healing-Cybersecurity/
+  Self-Healing-Cybersecurity-System/
   │── main.py
   │── detector.py
   │── response.py
@@ -34,27 +34,16 @@ The project follows a modular structure for ease of use and maintainability:
   │── logs/
   │── data/
   │   └── synthetic_network_traffic.csv  # Your data file (CSV format)
-  │── requirements.txt
  ```
-### Note:
-The data and logs folder is not present in the upload create them manually, <br>
-Ensure that your data/ folder contains valid dataset files (.csv format). You can download real-world datasets from Kaggle and place them inside the data/ folder.
-
----
-
-## requirements.txt 
-# Dependencies
-
 - **`main.py`**: The entry point of the system that runs the detection and response mechanism. 🎯
 - **`detector.py`**: Contains the logic for training and predicting anomalies using machine learning. 🤖
 - **`response.py`**: Automates countermeasures such as blocking malicious IPs and logging detected threats. 📝
 - **`firewall.py`**: Integrates with system firewall to block malicious IP addresses. 🔒
 - **`logs/`**: Directory to store threat logs. 📂
 - **`data/`**: Contains datasets used for training and testing the anomaly detection model. 📁
-
----
-
-Here is a properly formatted `README.md` section for **"How to Run This Project"** to add to your GitHub repository:  
+### Note:
+The data and logs folder is not present in the upload create them manually, <br>
+Ensure that your data/ folder contains valid dataset files (.csv format). You can download real-world datasets from Kaggle and place them inside the data/ folder.
 
 ---
 
@@ -64,18 +53,14 @@ This guide provides step-by-step instructions to set up and run the **Self-Heali
 
 ## 📥 1. Clone the Repository  
 ```bash
-git clone https://github.com/kunal-masurkar/Self-Healing-Cybersecurity.git
-cd Self-Healing-Cybersecurity
+git clone https://github.com/kunal-masurkar/Self-Healing-Cybersecurity-System.git
+cd Self-Healing-Cybersecurity-System
 ```
 
 ---
 
 ## 📦 2. Install Dependencies  
 Ensure you have **Python 3.8+** installed. Then, install the required dependencies:  
-```bash
-pip install -r requirements.txt
-```
-If `requirements.txt` is missing, install dependencies manually:  
 ```bash
 pip install numpy pandas scikit-learn joblib
 ```
@@ -88,7 +73,7 @@ pip install numpy pandas scikit-learn joblib
 - Ensure the `data/` folder contains valid files like:  
 
 ```
-Self-Healing-Cybersecurity/
+Self-Healing-Cybersecurity-System/
 │── data/
 │   ├── network_traffic1.csv
 │   ├── network_traffic2.csv
@@ -119,7 +104,7 @@ python main.py
 🔹 **Example Output:**  
 ```
 [SYSTEM] Threat detected & mitigated.
-[ALERT] Blocking malicious IP: 192.168.1.100
+[ALERT] Blocking malicious IP: 
 ```
 
 ---
