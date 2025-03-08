@@ -36,6 +36,9 @@ The project follows a modular structure for ease of use and maintainability:
   │   └── synthetic_network_traffic.csv  # Your data file (CSV format)
   │── requirements.txt
  ```
+### Note:
+The data and logs folder is not present in the upload create them manually, <br>
+Ensure that your data/ folder contains valid dataset files (.csv format). You can download real-world datasets from Kaggle and place them inside the data/ folder.
 
 ---
 
@@ -51,20 +54,106 @@ The project follows a modular structure for ease of use and maintainability:
 
 ---
 
-## Installation ⚙️
+Here is a properly formatted `README.md` section for **"How to Run This Project"** to add to your GitHub repository:  
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/kunal-masurkar/Self-Healing-Cybersecurity.git
-   ```
-2. Navigate to the project directory:
-  ```bash
-  cd Self-Healing-Cybersecurity
-  ```
-3. Install the required dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
+---
+
+# 🚀 How to Run the Self-Healing Cybersecurity System  
+
+This guide provides step-by-step instructions to set up and run the **Self-Healing Cybersecurity System**, which detects network attacks and applies countermeasures automatically.  
+
+## 📥 1. Clone the Repository  
+```bash
+git clone https://github.com/kunal-masurkar/Self-Healing-Cybersecurity.git
+cd Self-Healing-Cybersecurity
+```
+
+---
+
+## 📦 2. Install Dependencies  
+Ensure you have **Python 3.8+** installed. Then, install the required dependencies:  
+```bash
+pip install -r requirements.txt
+```
+If `requirements.txt` is missing, install dependencies manually:  
+```bash
+pip install numpy pandas scikit-learn joblib
+```
+
+---
+
+## 📂 3. Prepare Network Traffic Data  
+- Place your dataset files (`.csv` format) inside the `data/` folder.  
+- You can download real-world datasets from **[Kaggle](https://www.kaggle.com/)**.  
+- Ensure the `data/` folder contains valid files like:  
+
+```
+Self-Healing-Cybersecurity/
+│── data/
+│   ├── network_traffic1.csv
+│   ├── network_traffic2.csv
+│   ├── attack_data.csv
+```
+
+---
+
+## 🎯 4. Train the Anomaly Detection Model  
+Run the training script to train the AI-based model:  
+```bash
+python detector.py
+```
+✅ This will train the model using data inside `data/` and save it as **`model.pkl`**.
+
+---
+
+## 🔥 5. Run the Detection & Response System  
+Start the **Self-Healing Security System** by running:  
+```bash
+python main.py
+```
+📌 The system will:  
+✔ Detect anomalies in real-time  
+✔ Block malicious IPs  
+✔ Log threats automatically  
+
+🔹 **Example Output:**  
+```
+[SYSTEM] Threat detected & mitigated.
+[ALERT] Blocking malicious IP: 192.168.1.100
+```
+
+---
+
+## 📜 6. Check Logs for Detected Threats  
+The system logs detected threats in `logs/threats.log`. View logs using:  
+```bash
+cat logs/threats.log
+```
+
+---
+
+## 🛡️ 7. (Optional) Firewall Rules (Linux)  
+To check blocked IPs in the firewall (Linux only):  
+```bash
+sudo iptables -L -v -n
+```
+To manually unblock an IP:  
+```bash
+sudo iptables -D INPUT -s 192.168.1.100 -j DROP
+```
+
+---
+
+## 🔄 8. Updating the Project  
+Since this project is **regularly updated**, pull the latest changes using:  
+```bash
+git pull origin main
+```
+
+---
+
+## 🎉 Done!  
+Your **Self-Healing Cybersecurity System** is now running, automatically detecting and mitigating cyber threats in real time! 🚀🔐
 
 ---
 
