@@ -1,69 +1,65 @@
-import numpy as np
-import pandas as pd
-import joblib
-import detector
-import response
 import os
+import sys
+from config import DATA_DIR, MODEL_PATH
+from detector.anomaly_detector import anomaly_detector
+from security.response import security_response
+from utils.logger import logger
 
-DATA_FOLDER = "data"
-MODEL_PATH = os.path.join(DATA_FOLDER, "model.pkl")
-
-# Check if model exists
-if not os.path.exists(MODEL_PATH):
-    print(f"[ERROR] Model file '{MODEL_PATH}' not found. Train the model first.")
-    exit()
-
-# Load dataset structure to match features
-def preprocess_test_data():
-    """Load multiple test datasets and ensure feature consistency with training."""
+def main():
     try:
-        # Load trained model feature names
-        sample_path = os.path.join(DATA_FOLDER, "sample1.csv")
-        if not os.path.exists(sample_path):
-            print(f"[ERROR] Sample dataset '{sample_path}' not found. Ensure a correct sample exists.")
-            return None
+        # Train the model with sample data
+        logger.info("Starting the anomaly detection system...")
+        
+        # Force training with sample data
+        logger.info("Training the model with sample data...")
+        if not anomaly_detector.train():
+            logger.error("Failed to train model. Exiting.")
+            sys.exit(1)
+        
+        # Load and preprocess test data
+        logger.info("Loading test data...")
+        test_data = anomaly_detector.load_data()
+        if test_data is None:
+            logger.error("No test data available. Exiting.")
+            sys.exit(1)
 
-        sample_df = pd.read_csv(sample_path)
-        feature_names = sample_df.select_dtypes(include=[np.number]).columns.tolist()
+        # Predict anomalies
+        logger.info("Analyzing network traffic for anomalies...")
+        results = anomaly_detector.predict(test_data)
+        if results is None:
+            logger.error("Prediction failed. Exiting.")
+            sys.exit(1)
 
-        all_data = []
-        for file in os.listdir(DATA_FOLDER):
-            if file.endswith(".csv") and file != "sample1.csv":  # Ignore sample file
-                file_path = os.path.join(DATA_FOLDER, file)
-                df = pd.read_csv(file_path)
+        # Process anomalies
+        for idx in results['anomalies']:
+            # Simulate malicious IP (in real scenario, this would come from the data)
+            malicious_ip = f"192.168.1.{100 + idx}"
+            
+            try:
+                # Block the IP with a reason
+                security_response.block_ip(
+                    malicious_ip,
+                    reason=f"Anomaly detected in row {idx} with score {results['scores'][idx]:.2f}"
+                )
+                
+                logger.info(f"Successfully processed threat from IP {malicious_ip}")
+            except Exception as e:
+                logger.error(f"Failed to process threat from IP {malicious_ip}: {str(e)}")
 
-                # Ensure test data matches trained model structure
-                df = df.reindex(columns=feature_names, fill_value=0)  # Handle missing columns
-                df.fillna(0, inplace=True)  # Handle missing values
-                all_data.append(df.to_numpy())
-
-        return np.vstack(all_data) if all_data else None
+        # Print summary
+        total_anomalies = len(results['anomalies'])
+        logger.info(f"Analysis complete. Found {total_anomalies} anomalies.")
+        
+        if total_anomalies > 0:
+            logger.info("Blocked IPs:")
+            for ip, info in security_response.get_blocked_ips().items():
+                logger.info(f"- {ip} (Blocked at: {info['block_time']}, Reason: {info['reason']})")
+        else:
+            logger.info("No anomalies detected in this analysis.")
 
     except Exception as e:
-        print(f"[ERROR] Data preprocessing failed: {e}")
-        return None
+        logger.error(f"Unexpected error: {str(e)}")
+        sys.exit(1)
 
-# Load trained model
-detector_model = joblib.load(MODEL_PATH)
-
-# Preprocess the test data
-test_data = preprocess_test_data()
-
-if test_data is not None:
-    # Predict anomalies
-    predictions = detector_model.predict(test_data)
-
-    # Take action if anomalies are detected
-    for i, pred in enumerate(predictions):
-        if pred == -1:
-            malicious_ip = f"192.168.1.{100 + i}"  # Simulated attacker's IP
-            try:
-                response.block_ip(malicious_ip)
-                response.log_threat(malicious_ip)
-                print(f"[SYSTEM] Threat detected in row {i}, IP: {malicious_ip} - Action taken.")
-            except Exception as e:
-                print(f"[ERROR] Failed to block IP {malicious_ip}: {e}")
-        else:
-            print(f"[SYSTEM] Row {i}: No threats detected.")
-else:
-    print("[ERROR] Could not process test data. Ensure the dataset is formatted correctly.")
+if __name__ == "__main__":
+    main()
