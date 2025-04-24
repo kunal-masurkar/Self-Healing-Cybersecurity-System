@@ -1,0 +1,35 @@
+import os
+
+# Path configurations
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DATA_DIR = os.path.join(BASE_DIR, "data")
+LOGS_DIR = os.path.join(BASE_DIR, "logs")
+MODEL_PATH = os.path.join(DATA_DIR, "model.pkl")
+SCALER_PATH = os.path.join(DATA_DIR, "scaler.pkl")
+
+# Model configurations
+MODEL_CONFIG = {
+    "contamination": 0.05,
+    "random_state": 42,
+    "n_estimators": 100,
+    "max_samples": "auto"
+}
+
+# Security configurations
+SECURITY_CONFIG = {
+    "block_duration": 3600,  # Block duration in seconds
+    "max_attempts": 3,       # Maximum attempts before permanent block
+    "rate_limit": 100,       # Requests per minute
+    "temporary_blocks": True # Enable temporary blocking
+}
+
+# Logging configurations
+LOG_CONFIG = {
+    "level": "INFO",
+    "format": "%(asctime)s - %(levelname)s - %(message)s",
+    "file": os.path.join(LOGS_DIR, "system.log")
+}
+
+# Create necessary directories
+os.makedirs(DATA_DIR, exist_ok=True)
+os.makedirs(LOGS_DIR, exist_ok=True) 
